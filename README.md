@@ -7,7 +7,8 @@
 
 Valtus is a graphical tool for ethical hacking, bug bounty, and OSINT research. It automates Google dorking with a clean, dark‑theme interface, integrated proxy/Tor support, and real‑time result categorisation.
 
-<img width="1428" height="902" alt="image" src="https://github.com/user-attachments/assets/9e200234-3c87-4ad5-a9b6-ba8472ee9599" />
+<img width="1428" height="902" alt="image" src="https://github.com/user-attachments/assets/f5d5dfee-9838-410b-9b0b-db4880f3572e" />
+
 
 
 ## Features
