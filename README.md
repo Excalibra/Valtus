@@ -1,8 +1,13 @@
 # Valtus – OSINT & Google Dorking Tool
 
+---
+
 **Author:** [Excalibra](https://github.com/Excalibra)
 
 Valtus is a graphical tool for ethical hacking, bug bounty, and OSINT research. It automates Google dorking with a clean, dark‑theme interface, integrated proxy/Tor support, and real‑time result categorisation.
+
+<img width="1428" height="902" alt="image" src="https://github.com/user-attachments/assets/9e200234-3c87-4ad5-a9b6-ba8472ee9599" />
+
 
 ## Features
 - Enter a target domain or keyword and generate dorks instantly.
