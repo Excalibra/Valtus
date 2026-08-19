@@ -15,8 +15,8 @@ class DorkerGUI(ctk.CTk):
     def __init__(self):
         super().__init__()
         self.title("Valtus – OSINT Dorker")
-        self.geometry("1200x850")
-        self.minsize(900, 700)
+        self.geometry("1400x850")
+        self.minsize(1000, 700)
 
         self.category_map = load_results_structure("ResultsStructure.json")
         self.results = []
@@ -37,49 +37,51 @@ class DorkerGUI(ctk.CTk):
         top_frame.grid(row=0, column=0, padx=20, pady=(20,10), sticky="ew")
         top_frame.grid_columnconfigure(1, weight=1)
 
-        ctk.CTkLabel(top_frame, text="Target:", font=("Segoe UI", 14, "bold")).grid(row=0, column=0, padx=10, pady=10, sticky="w")
-        self.target_entry = ctk.CTkEntry(top_frame, width=300, font=("Segoe UI", 14))
-        self.target_entry.grid(row=0, column=1, padx=10, pady=10, sticky="ew")
+        ctk.CTkLabel(top_frame, text="Target:", font=("Segoe UI", 14, "bold")).grid(row=0, column=0, padx=5, pady=5, sticky="w")
+        self.target_entry = ctk.CTkEntry(top_frame, width=250, font=("Segoe UI", 14))
+        self.target_entry.grid(row=0, column=1, padx=5, pady=5, sticky="ew")
         self.target_entry.insert(0, "example.com")
 
-        ctk.CTkLabel(top_frame, text="Template:", font=("Segoe UI", 14, "bold")).grid(row=0, column=2, padx=10, pady=10, sticky="w")
+        ctk.CTkLabel(top_frame, text="Template:", font=("Segoe UI", 14, "bold")).grid(row=0, column=2, padx=5, pady=5, sticky="w")
         self.template_var = ctk.StringVar()
         self.template_menu = ctk.CTkOptionMenu(top_frame, variable=self.template_var,
                                                values=self.get_template_list(),
-                                               command=self.load_template)
-        self.template_menu.grid(row=0, column=3, padx=10, pady=10, sticky="w")
+                                               command=self.load_template, width=140)
+        self.template_menu.grid(row=0, column=3, padx=5, pady=5, sticky="w")
         self.template_menu.set("Select template")
 
         self.generate_btn = ctk.CTkButton(top_frame, text="Generate Dorks", command=self.generate_dorks,
-                                          font=("Segoe UI", 14, "bold"), width=140)
-        self.generate_btn.grid(row=0, column=4, padx=10, pady=10)
+                                          font=("Segoe UI", 14, "bold"), width=130)
+        self.generate_btn.grid(row=0, column=4, padx=5, pady=5)
 
-        ctk.CTkLabel(top_frame, text="Delay (sec):", font=("Segoe UI", 12, "bold")).grid(row=0, column=5, padx=10, pady=10, sticky="w")
+        ctk.CTkLabel(top_frame, text="Delay (sec):", font=("Segoe UI", 12, "bold")).grid(row=0, column=5, padx=5, pady=5, sticky="w")
         self.delay_entry = ctk.CTkEntry(top_frame, width=60, font=("Segoe UI", 12))
         self.delay_entry.insert(0, "30")
-        self.delay_entry.grid(row=0, column=6, padx=5, pady=10, sticky="w")
+        self.delay_entry.grid(row=0, column=6, padx=5, pady=5, sticky="w")
 
         self.tor_var = tk.BooleanVar()
-        self.tor_check = ctk.CTkCheckBox(top_frame, text="Use Tor Proxy", variable=self.tor_var,
-                                         command=self.toggle_tor, font=("Segoe UI", 12, "bold"))
-        self.tor_check.grid(row=0, column=7, padx=10, pady=10, sticky="w")
+        self.tor_check = ctk.CTkCheckBox(top_frame, text="Tor", variable=self.tor_var,
+                                         command=self.toggle_tor, font=("Segoe UI", 12, "bold"), width=60)
+        self.tor_check.grid(row=0, column=7, padx=5, pady=5, sticky="w")
 
-        self.proxy_entry = ctk.CTkEntry(top_frame, width=220, font=("Segoe UI", 12), placeholder_text="socks5://127.0.0.1:9050")
-        self.proxy_entry.grid(row=0, column=8, padx=5, pady=10, sticky="w")
+        self.proxy_entry = ctk.CTkEntry(top_frame, width=200, font=("Segoe UI", 12), placeholder_text="socks5://127.0.0.1:9050")
+        self.proxy_entry.grid(row=0, column=8, padx=5, pady=5, sticky="w")
         self.proxy_entry.insert(0, "socks5://127.0.0.1:9050")
+        self.proxy_entry.configure(state="disabled")
 
         self.search_btn = ctk.CTkButton(top_frame, text="Search All", command=self.start_search,
                                         font=("Segoe UI", 14, "bold"), width=100, fg_color="#2e7d32")
-        self.search_btn.grid(row=0, column=9, padx=10, pady=10)
+        self.search_btn.grid(row=0, column=9, padx=5, pady=5)
 
         self.test_btn = ctk.CTkButton(top_frame, text="Test One", command=self.test_single_dork,
                                       font=("Segoe UI", 12, "bold"), width=80, fg_color="#1e5f8e")
-        self.test_btn.grid(row=0, column=10, padx=5, pady=10)
+        self.test_btn.grid(row=0, column=10, padx=5, pady=5)
 
         self.stop_btn = ctk.CTkButton(top_frame, text="Stop", command=self.stop_search,
-                                      font=("Segoe UI", 14, "bold"), width=100, state="disabled", fg_color="#b71c1c")
-        self.stop_btn.grid(row=0, column=11, padx=10, pady=10)
+                                      font=("Segoe UI", 14, "bold"), width=80, state="disabled", fg_color="#b71c1c")
+        self.stop_btn.grid(row=0, column=11, padx=5, pady=5)
 
+        # Middle frame (dorks + results) unchanged
         middle_frame = ctk.CTkFrame(self, corner_radius=10)
         middle_frame.grid(row=1, column=0, padx=20, pady=10, sticky="nsew")
         middle_frame.grid_rowconfigure(0, weight=1)
@@ -118,6 +120,7 @@ class DorkerGUI(ctk.CTk):
         self.results_scroll = ctk.CTkScrollableFrame(results_frame, label_text="Results")
         self.results_scroll.grid(row=1, column=0, padx=10, pady=10, sticky="nsew")
 
+        # Log panel (unchanged)
         log_frame = ctk.CTkFrame(self, corner_radius=10)
         log_frame.grid(row=2, column=0, padx=20, pady=(0,20), sticky="ew")
         log_frame.grid_columnconfigure(0, weight=1)
@@ -135,6 +138,7 @@ class DorkerGUI(ctk.CTk):
         self.log_text = ctk.CTkTextbox(log_frame, font=("Consolas", 11), height=120, wrap="word")
         self.log_text.grid(row=1, column=0, padx=5, pady=5, sticky="nsew")
 
+        # Bottom buttons (unchanged)
         bottom_btn_frame = ctk.CTkFrame(self, corner_radius=10, fg_color="transparent")
         bottom_btn_frame.grid(row=3, column=0, padx=20, pady=(0,20), sticky="ew")
         bottom_btn_frame.grid_columnconfigure(3, weight=1)
